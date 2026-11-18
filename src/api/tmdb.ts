@@ -22,7 +22,7 @@ export async function requestApi<T>(
 ): Promise<T> {
     if (!TOKEN) {
         throw new Error(
-            "TMDB access is not configured. Add VITE_APP_TMDB_TOKEN to .env.local."
+            "TMDB access is not configured. Set VITE_APP_TMDB_TOKEN in your deployment environment and rebuild; use .env.local for local development."
         );
     }
 

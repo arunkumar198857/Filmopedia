@@ -1,6 +1,9 @@
 # Filmopedia
 
+
+
 **Discover your next favorite film or TV show.**
+**Deployed @** https://filmopedia-live.netlify.app/
 
 Filmopedia is a responsive discovery app for browsing movies and television. Explore what is trending, search for titles, filter by genre, and view details including cast, videos, and recommendations.
 
@@ -49,6 +52,12 @@ Filmopedia is a responsive discovery app for browsing movies and television. Exp
    ```
 
 Vite prints the local URL when the server starts. The token is used by the browser app, so it is included in client-side requests; do not use it as a confidential server-side secret, and do not commit `.env.local`.
+
+## Deploying to Netlify
+
+Configure the site to build with `npm run build` and publish the `dist` directory. In Netlify, add `VITE_APP_TMDB_TOKEN` under **Site configuration → Environment variables**. Make it available to the production build (and to deploy previews or branch deploys if you use them), then trigger a new deploy. Vite reads this value at build time, so changing the variable does not update an already-built deployment.
+
+The `VITE_` prefix makes the token available in the client bundle. Treat it as public; do not use it for confidential credentials.
 
 ## Project scripts
 
