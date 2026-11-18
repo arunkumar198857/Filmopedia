@@ -1,21 +1,26 @@
 # Filmopedia
 
-## Overview
+Filmopedia is a movie and television discovery app. Browse trending and popular titles, filter a catalog by genre, search for a title, and open a detail page for its overview, cast, videos, and recommendations.
 
-The Movie Application is a web application that allows users to search for movies, view movie details, and explore information about various films. Here's an overview of its functionality:
+## Run locally
 
-## Features
+1. Install dependencies with `npm install`.
+2. Create a `.env.local` file in the project root and add your TMDB API Read Access Token:
 
-1. Search Movies:
-   
-    Users can enter search queries to find movies by title or keywords. The application connects to an external API to fetch a list of matching movies and displays them on the homepage.
+   ```text
+   VITE_APP_TMDB_TOKEN=your_tmdb_read_access_token
+   ```
 
-2. View Movie Details:
+3. Start the development server with `npm run dev`.
 
-    Users can click on a movie from the search results to access its detailed information. This includes the movie's title, year of release, actors, writers, plot, and IMDb rating.
+The app requires a TMDB API token to load movie and television data. The token is read by Vite at build time; do not commit a real token.
 
-## Technology Stack
+## Attribution
 
-Frontend: React.js + Vanilla CSS + SCSS
+Film and television metadata and images are provided by [The Movie Database (TMDB)](https://www.themoviedb.org/). This product uses the TMDB API but is not endorsed or certified by TMDB.
 
-API Integration: TMDB API for movie data
+## Available scripts
+
+- `npm run dev` starts the local development server.
+- `npm run build` creates a production build in `dist`.
+- `npm run preview` serves the production build locally.
