@@ -7,15 +7,31 @@ import MediaShelf from "../components/media/MediaShelf";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import NotFoundPage from "./NotFoundPage";
 import DetailSkeleton from "./details/DetailSkeleton";
+import type {
+    CreditsResponse,
+    CrewMember,
+    MediaDetails,
+    MediaItem,
+    MediaType,
+    PagedResponse,
+    Video,
+    VideosResponse,
+} from "../types/tmdb";
 
-export default function DetailPage() {
-    const { mediaType: routeType, id } = useParams();
-    const mediaType = routeType === "tv" ? "tv" : "movie";
-    const detail = useRequest(`/${mediaType}/${id}`);
-    const credits = useRequest(`/${mediaType}/${id}/credits`);
-    const videos = useRequest(`/${mediaType}/${id}/videos`);
-    const similar = useRequest(`/${mediaType}/${id}/similar`);
-    const recommendations = useRequest(`/${mediaType}/${id}/recommendations`);
+interface DetailRouteParams {
+    [key: string]: string | undefined;
+    mediaType: string;
+    id: string;
+}
+
+export default function DetailPage(): JSX.Element {
+    const { mediaType: routeType, id } = useParams<DetailRouteParams>();
+    const mediaType: MediaType = routeType === "tv" ? "tv" : "movie";
+    const detail = useRequest<MediaDetails>(`/${mediaType}/${id ?? ""}`);
+    const credits = useRequest<CreditsResponse>(`/${mediaType}/${id ?? ""}/credits`);
+    const videos = useRequest<VideosResponse>(`/${mediaType}/${id ?? ""}/videos`);
+    const similar = useRequest<PagedResponse<MediaItem>>(`/${mediaType}/${id ?? ""}/similar`);
+    const recommendations = useRequest<PagedResponse<MediaItem>>(`/${mediaType}/${id ?? ""}/recommendations`);
 
     if (routeType !== "movie" && routeType !== "tv") return <NotFoundPage />;
     if (detail.loading) return <DetailSkeleton />;
@@ -24,11 +40,11 @@ export default function DetailPage() {
     }
     if (!detail.data) return <NotFoundPage />;
 
-    const creators = credits.data?.crew?.filter((person) =>
+    const creators: CrewMember[] = credits.data?.crew?.filter((person: CrewMember) =>
         ["Director", "Writer", "Screenplay", "Story"].includes(person.job)
     ) ?? [];
-    const trailer = videos.data?.results?.find(
-        (video) => video.site === "YouTube" && video.type === "Trailer"
+    const trailer: Video | undefined = videos.data?.results?.find(
+        (video: Video) => video.site === "YouTube" && video.type === "Trailer"
     );
 
     return (

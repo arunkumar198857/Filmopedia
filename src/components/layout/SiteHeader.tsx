@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import type { Location as RouteLocation } from "react-router-dom";
 import SearchForm from "../search/SearchForm";
 
-export default function SiteHeader() {
-    const location = useLocation();
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [theme, setTheme] = useState(
-        () => localStorage.getItem("filmopedia-theme") || "light"
-    );
+type Theme = "light" | "dark";
 
-    useEffect(() => {
+function getInitialTheme(): Theme {
+    const storedTheme: string | null = localStorage.getItem("filmopedia-theme");
+    return storedTheme === "dark" ? "dark" : "light";
+}
+
+export default function SiteHeader(): JSX.Element {
+    const location: RouteLocation = useLocation();
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+    const [theme, setTheme] = useState<Theme>(getInitialTheme);
+
+    useEffect((): void => {
         document.documentElement.dataset.theme = theme;
         localStorage.setItem("filmopedia-theme", theme);
     }, [theme]);
 
-    useEffect(() => {
+    useEffect((): void => {
         setMenuOpen(false);
     }, [location.pathname]);
 
@@ -35,7 +41,7 @@ export default function SiteHeader() {
                         className="theme-button"
                         type="button"
                         onClick={() =>
-                            setTheme((current) =>
+                            setTheme((current: Theme): Theme =>
                                 current === "light" ? "dark" : "light"
                             )
                         }
@@ -47,7 +53,7 @@ export default function SiteHeader() {
                     <button
                         className="mobile-menu-toggle"
                         type="button"
-                        onClick={() => setMenuOpen((open) => !open)}
+                        onClick={() => setMenuOpen((open: boolean) => !open)}
                         aria-expanded={menuOpen}
                         aria-controls="mobile-navigation"
                         aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}

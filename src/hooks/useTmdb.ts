@@ -1,26 +1,50 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { makeQuery, requestApi } from "../api/tmdb";
+import type { MediaItem, PagedResponse, QueryParams } from "../types/tmdb";
 
-export function useRequest(path, params = {}) {
-    const query = makeQuery(params);
-    const [state, setState] = useState({
+export interface RequestState<T> {
+    data: T | null;
+    loading: boolean;
+    error: string;
+}
+
+export interface PagedResultsState {
+    results: MediaItem[];
+    loading: boolean;
+    loadingMore: boolean;
+    error: string;
+    hasMore: boolean;
+    loadMore: () => Promise<void>;
+}
+
+function isAbortError(error: unknown): boolean {
+    return error instanceof Error && error.name === "AbortError";
+}
+
+function errorMessage(error: unknown): string {
+    return error instanceof Error ? error.message : "An unexpected request error occurred.";
+}
+
+export function useRequest<T>(path: string, params: QueryParams = {}): RequestState<T> {
+    const query: string = makeQuery(params);
+    const [state, setState] = useState<RequestState<T>>({
         data: null,
         loading: true,
         error: "",
     });
 
-    useEffect(() => {
-        const controller = new AbortController();
+    useEffect((): (() => void) => {
+        const controller: AbortController = new AbortController();
         setState({ data: null, loading: true, error: "" });
 
-        requestApi(path, query, controller.signal)
-            .then((data) => setState({ data, loading: false, error: "" }))
-            .catch((error) => {
-                if (error.name !== "AbortError") {
+        requestApi<T>(path, query, controller.signal)
+            .then((data: T) => setState({ data, loading: false, error: "" }))
+            .catch((error: unknown) => {
+                if (!isAbortError(error)) {
                     setState({
                         data: null,
                         loading: false,
-                        error: error.message,
+                        error: errorMessage(error),
                     });
                 }
             });
@@ -31,19 +55,19 @@ export function useRequest(path, params = {}) {
     return state;
 }
 
-export function usePagedResults(path, params = {}) {
-    const query = makeQuery(params);
-    const requestId = useRef(0);
-    const [results, setResults] = useState([]);
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [loading, setLoading] = useState(true);
-    const [loadingMore, setLoadingMore] = useState(false);
-    const [error, setError] = useState("");
+export function usePagedResults(path: string, params: QueryParams = {}): PagedResultsState {
+    const query: string = makeQuery(params);
+    const requestId = useRef<number>(0);
+    const [results, setResults] = useState<MediaItem[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(1);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [loadingMore, setLoadingMore] = useState<boolean>(false);
+    const [error, setError] = useState<string>("");
 
-    useEffect(() => {
-        const currentRequest = ++requestId.current;
-        const controller = new AbortController();
+    useEffect((): (() => void) => {
+        const currentRequest: number = ++requestId.current;
+        const controller: AbortController = new AbortController();
         setResults([]);
         setPage(1);
         setTotalPages(1);
@@ -51,19 +75,19 @@ export function usePagedResults(path, params = {}) {
         setLoadingMore(false);
         setError("");
 
-        requestApi(path, query, controller.signal)
-            .then((data) => {
+        requestApi<PagedResponse<MediaItem>>(path, query, controller.signal)
+            .then((data: PagedResponse<MediaItem>) => {
                 if (currentRequest !== requestId.current) return;
                 setResults(data.results ?? []);
                 setTotalPages(data.total_pages ?? 1);
                 setLoading(false);
             })
-            .catch((requestError) => {
+            .catch((requestError: unknown) => {
                 if (
-                    requestError.name !== "AbortError" &&
+                    !isAbortError(requestError) &&
                     currentRequest === requestId.current
                 ) {
-                    setError(requestError.message);
+                    setError(errorMessage(requestError));
                     setLoading(false);
                 }
             });
@@ -74,37 +98,37 @@ export function usePagedResults(path, params = {}) {
         };
     }, [path, query]);
 
-    const loadMore = useCallback(async () => {
+    const loadMore = useCallback(async (): Promise<void> => {
         if (loading || loadingMore || page >= totalPages) return;
 
-        const currentRequest = requestId.current;
-        const nextPage = page + 1;
+        const currentRequest: number = requestId.current;
+        const nextPage: number = page + 1;
         setLoadingMore(true);
         setError("");
 
         try {
-            const nextQuery = makeQuery({
+            const nextQuery: string = makeQuery({
                 ...Object.fromEntries(new URLSearchParams(query)),
                 page: nextPage,
             });
-            const data = await requestApi(path, nextQuery);
+            const data: PagedResponse<MediaItem> = await requestApi<PagedResponse<MediaItem>>(path, nextQuery);
             if (currentRequest !== requestId.current) return;
-            setResults((current) => [...current, ...(data.results ?? [])]);
+            setResults((current: MediaItem[]): MediaItem[] => [...current, ...(data.results ?? [])]);
             setPage(nextPage);
             setTotalPages(data.total_pages ?? totalPages);
-        } catch (requestError) {
+        } catch (requestError: unknown) {
             if (
-                requestError.name !== "AbortError" &&
+                !isAbortError(requestError) &&
                 currentRequest === requestId.current
             ) {
-                setError(requestError.message);
+                setError(errorMessage(requestError));
             }
         } finally {
             if (currentRequest === requestId.current) setLoadingMore(false);
         }
     }, [loading, loadingMore, page, path, query, totalPages]);
 
-    return {
+    const state: PagedResultsState = {
         results,
         loading,
         loadingMore,
@@ -112,4 +136,5 @@ export function usePagedResults(path, params = {}) {
         hasMore: page < totalPages,
         loadMore,
     };
+    return state;
 }

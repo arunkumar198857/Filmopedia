@@ -1,22 +1,30 @@
 import { useEffect, useRef, useState } from "react";
+import type { ChangeEvent, KeyboardEvent, MouseEvent } from "react";
+import type { Genre } from "../../types/tmdb";
 
-export default function GenreMultiSelect({ options, value, onChange }) {
-    const [open, setOpen] = useState(false);
-    const [query, setQuery] = useState("");
-    const containerRef = useRef(null);
-    const inputRef = useRef(null);
-    const optionsRef = useRef(null);
+interface GenreMultiSelectProps {
+    options: Genre[];
+    value: string[];
+    onChange: (value: string[]) => void;
+}
 
-    const selectedOptions = options.filter((option) =>
+export default function GenreMultiSelect({ options, value, onChange }: GenreMultiSelectProps): JSX.Element {
+    const [open, setOpen] = useState<boolean>(false);
+    const [query, setQuery] = useState<string>("");
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const optionsRef = useRef<HTMLDivElement | null>(null);
+
+    const selectedOptions: Genre[] = options.filter((option: Genre) =>
         value.includes(String(option.id))
     );
-    const filteredOptions = options.filter((option) =>
+    const filteredOptions: Genre[] = options.filter((option: Genre) =>
         option.name.toLowerCase().includes(query.trim().toLowerCase())
     );
 
-    useEffect(() => {
-        function closeOnOutsideClick(event) {
-            if (!containerRef.current?.contains(event.target)) {
+    useEffect((): (() => void) => {
+        function closeOnOutsideClick(event: PointerEvent): void {
+            if (!(event.target instanceof Node) || !containerRef.current?.contains(event.target)) {
                 setOpen(false);
             }
         }
@@ -25,33 +33,33 @@ export default function GenreMultiSelect({ options, value, onChange }) {
         return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
     }, []);
 
-    function setSelection(nextValue) {
+    function setSelection(nextValue: string[]): void {
         onChange(nextValue);
         setQuery("");
     }
 
-    function toggleOption(option) {
-        const id = String(option.id);
+    function toggleOption(option: Genre): void {
+        const id: string = String(option.id);
         setSelection(
             value.includes(id)
-                ? value.filter((selectedId) => selectedId !== id)
+                ? value.filter((selectedId: string) => selectedId !== id)
                 : [...value, id]
         );
     }
 
-    function removeOption(option, event) {
+    function removeOption(option: Genre, event: MouseEvent<HTMLButtonElement>): void {
         event.stopPropagation();
-        setSelection(value.filter((selectedId) => selectedId !== String(option.id)));
+        setSelection(value.filter((selectedId: string) => selectedId !== String(option.id)));
         inputRef.current?.focus();
     }
 
-    function handleInputKeyDown(event) {
+    function handleInputKeyDown(event: KeyboardEvent<HTMLInputElement>): void {
         if (event.key === "Escape") {
             setOpen(false);
         } else if (event.key === "ArrowDown") {
             event.preventDefault();
             setOpen(true);
-            optionsRef.current?.querySelector('[role="option"]')?.focus();
+            optionsRef.current?.querySelector<HTMLElement>('[role="option"]')?.focus();
         } else if (event.key === "Backspace" && query === "" && selectedOptions.length) {
             setSelection(value.slice(0, -1));
         } else if (event.key === "Enter" && filteredOptions.length) {
@@ -60,13 +68,14 @@ export default function GenreMultiSelect({ options, value, onChange }) {
         }
     }
 
-    function handleOptionKeyDown(event, index) {
-        const optionElements = optionsRef.current?.querySelectorAll('[role="option"]');
+    function handleOptionKeyDown(event: KeyboardEvent<HTMLDivElement>, index: number): void {
+        const optionElements: NodeListOf<HTMLDivElement> | undefined =
+            optionsRef.current?.querySelectorAll<HTMLDivElement>('[role="option"]');
 
         if (event.key === "ArrowDown" || event.key === "ArrowUp") {
             event.preventDefault();
-            const direction = event.key === "ArrowDown" ? 1 : -1;
-            const nextIndex = (index + direction + filteredOptions.length) % filteredOptions.length;
+            const direction: 1 | -1 = event.key === "ArrowDown" ? 1 : -1;
+            const nextIndex: number = (index + direction + filteredOptions.length) % filteredOptions.length;
             optionElements?.[nextIndex]?.focus();
         } else if (event.key === "Escape") {
             setOpen(false);
@@ -85,14 +94,14 @@ export default function GenreMultiSelect({ options, value, onChange }) {
                     className={`genre-multi-control${open ? " is-open" : ""}`}
                     onClick={() => inputRef.current?.focus()}
                 >
-                    {selectedOptions.map((option) => (
+                    {selectedOptions.map((option: Genre) => (
                         <span className="genre-chip" key={option.id}>
                             <span>{option.name}</span>
                             <button
                                 type="button"
                                 aria-label={`Remove ${option.name}`}
                                 title={`Remove ${option.name}`}
-                                onClick={(event) => removeOption(option, event)}
+                                onClick={(event: MouseEvent<HTMLButtonElement>) => removeOption(option, event)}
                             >
                                 ×
                             </button>
@@ -111,7 +120,7 @@ export default function GenreMultiSelect({ options, value, onChange }) {
                         placeholder={selectedOptions.length ? "Add a genre…" : "Select genres…"}
                         value={query}
                         onFocus={() => setOpen(true)}
-                        onChange={(event) => setQuery(event.target.value)}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => setQuery(event.target.value)}
                         onKeyDown={handleInputKeyDown}
                     />
                     <button
@@ -119,9 +128,9 @@ export default function GenreMultiSelect({ options, value, onChange }) {
                         type="button"
                         aria-label={open ? "Close genre options" : "Open genre options"}
                         aria-expanded={open}
-                        onClick={(event) => {
+                        onClick={(event: MouseEvent<HTMLButtonElement>) => {
                             event.stopPropagation();
-                            setOpen((isOpen) => !isOpen);
+                            setOpen((isOpen: boolean) => !isOpen);
                         }}
                     >
                         <svg viewBox="0 0 16 12" aria-hidden="true" focusable="false">
@@ -145,8 +154,8 @@ export default function GenreMultiSelect({ options, value, onChange }) {
                         aria-multiselectable="true"
                         ref={optionsRef}
                     >
-                        {filteredOptions.length ? filteredOptions.map((option, index) => {
-                            const selected = value.includes(String(option.id));
+                        {filteredOptions.length ? filteredOptions.map((option: Genre, index: number) => {
+                            const selected: boolean = value.includes(String(option.id));
                             return (
                                 <div
                                     className="genre-option"
@@ -155,7 +164,9 @@ export default function GenreMultiSelect({ options, value, onChange }) {
                                     aria-selected={selected}
                                     tabIndex={0}
                                     onClick={() => toggleOption(option)}
-                                    onKeyDown={(event) => handleOptionKeyDown(event, index)}
+                                    onKeyDown={(event: KeyboardEvent<HTMLDivElement>) =>
+                                        handleOptionKeyDown(event, index)
+                                    }
                                 >
                                     <span className="genre-check" aria-hidden="true">
                                         {selected ? "✓" : ""}

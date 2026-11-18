@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
+import type { Location as RouteLocation } from "react-router-dom";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import DetailPage from "../../pages/DetailPage";
@@ -8,10 +9,10 @@ import HomePage from "../../pages/HomePage";
 import NotFoundPage from "../../pages/NotFoundPage";
 import SearchPage from "../../pages/SearchPage";
 
-export default function AppLayout() {
-    const location = useLocation();
+export default function AppLayout(): JSX.Element {
+    const location: RouteLocation = useLocation();
 
-    useEffect(() => {
+    useEffect((): void => {
         window.scrollTo(0, 0);
     }, [location.pathname]);
 

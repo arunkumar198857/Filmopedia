@@ -3,9 +3,15 @@ import { usePagedResults } from "../hooks/useTmdb";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import LoadMore from "../components/media/LoadMore";
 import ResultsGrid, { ResultsGridSkeleton } from "../components/media/ResultsGrid";
+import type { MediaItem } from "../types/tmdb";
 
-export default function SearchPage() {
-    const { query = "" } = useParams();
+interface SearchRouteParams {
+    [key: string]: string | undefined;
+    query: string;
+}
+
+export default function SearchPage(): JSX.Element {
+    const { query = "" } = useParams<SearchRouteParams>();
     const {
         results,
         loading,
@@ -14,7 +20,9 @@ export default function SearchPage() {
         hasMore,
         loadMore,
     } = usePagedResults("/search/multi", { query });
-    const titles = results.filter((item) => item.media_type === "movie" || item.media_type === "tv");
+    const titles: MediaItem[] = results.filter(
+        (item: MediaItem) => item.media_type === "movie" || item.media_type === "tv"
+    );
 
     return (
         <main className="page-width listing-page">

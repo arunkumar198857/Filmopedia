@@ -1,15 +1,22 @@
 import { imageUrl } from "../../utils/media";
 import ErrorMessage from "../ui/ErrorMessage";
 import { CastSkeleton } from "../ui/Skeletons";
+import type { CastMember } from "../../types/tmdb";
 
-export default function CastSection({ people, loading, error }) {
+interface CastSectionProps {
+    people: CastMember[];
+    loading: boolean;
+    error: string;
+}
+
+export default function CastSection({ people, loading, error }: CastSectionProps): JSX.Element {
     return (
         <section className="content-section">
             <div className="section-heading"><h2>Cast</h2></div>
             {error ? <ErrorMessage>{error}</ErrorMessage> : loading ? <CastSkeleton /> : (
                 people.length ? (
                     <div className="cast-grid">
-                        {people.map((person) => (
+                        {people.map((person: CastMember) => (
                             <div className="cast-card" key={person.id}>
                                 <div className="cast-avatar">
                                     {person.profile_path ? (

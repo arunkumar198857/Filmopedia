@@ -1,6 +1,6 @@
 # Filmopedia
 
-Filmopedia is a movie and television discovery app. Browse trending and popular titles, filter a catalog by genre, search for a title, and open a detail page for its overview, cast, videos, and recommendations.
+Filmopedia is a TypeScript movie and television discovery app. Browse trending and popular titles, filter a catalog by genre, search for a title, and open a detail page for its overview, cast, videos, and recommendations.
 
 ## Run locally
 
@@ -22,5 +22,7 @@ Film and television metadata and images are provided by [The Movie Database (TMD
 ## Available scripts
 
 - `npm run dev` starts the local development server.
-- `npm run build` creates a production build in `dist`.
+- `npm run typecheck` checks the TypeScript source without emitting files.
+- `npm run build` type-checks the project and creates a production build in `dist`.
+- `npm run lint` runs ESLint on the project.
 - `npm run preview` serves the production build locally.

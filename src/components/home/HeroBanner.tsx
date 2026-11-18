@@ -1,20 +1,25 @@
+import type { CSSProperties } from "react";
 import { useRequest } from "../../hooks/useTmdb";
 import { imageUrl } from "../../utils/media";
 import { SkeletonBlock } from "../ui/Skeletons";
 import SearchForm from "../search/SearchForm";
+import type { MediaItem, PagedResponse } from "../../types/tmdb";
 
-export default function HeroBanner() {
-    const { data, loading, error } = useRequest("/movie/upcoming");
-    const featured = data?.results?.find((item) => item.backdrop_path);
+export default function HeroBanner(): JSX.Element {
+    const { data, loading, error } = useRequest<PagedResponse<MediaItem>>("/movie/upcoming");
+    const featured: MediaItem | undefined = data?.results?.find(
+        (item: MediaItem) => item.backdrop_path
+    );
+    const heroStyle: CSSProperties & { "--hero-image": string } = {
+        "--hero-image": featured?.backdrop_path
+            ? `url("${imageUrl(featured.backdrop_path, "w1280")}")`
+            : "none",
+    };
 
     return (
         <section
             className={`hero${loading ? " hero-loading" : ""}`}
-            style={{
-                "--hero-image": featured?.backdrop_path
-                    ? `url("${imageUrl(featured.backdrop_path, "w1280")}")`
-                    : "none",
-            }}
+            style={heroStyle}
         >
             <div className="page-width hero-content">
                 <p className="eyebrow">A better movie night starts here</p>

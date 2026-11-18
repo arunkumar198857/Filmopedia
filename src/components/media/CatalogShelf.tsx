@@ -3,15 +3,24 @@ import { useRequest } from "../../hooks/useTmdb";
 import ErrorMessage from "../ui/ErrorMessage";
 import { MediaShelfSkeleton } from "../ui/Skeletons";
 import MediaCard from "./MediaCard";
+import type { MediaItem, MediaType, PagedResponse } from "../../types/tmdb";
 
-export default function CatalogShelf({ title, category, switchable = false }) {
-    const [mediaType, setMediaType] = useState("movie");
-    const [period, setPeriod] = useState("day");
-    const endpoint =
+type CatalogCategory = "trending" | "popular" | "top_rated";
+
+interface CatalogShelfProps {
+    title: string;
+    category: CatalogCategory;
+    switchable?: boolean;
+}
+
+export default function CatalogShelf({ title, category, switchable = false }: CatalogShelfProps): JSX.Element {
+    const [mediaType, setMediaType] = useState<MediaType>("movie");
+    const [period, setPeriod] = useState<"day" | "week">("day");
+    const endpoint: string =
         category === "trending"
             ? `/trending/movie/${period}`
             : `/${mediaType}/${category}`;
-    const { data, loading, error } = useRequest(endpoint);
+    const { data, loading, error } = useRequest<PagedResponse<MediaItem>>(endpoint);
 
     return (
         <section className="content-section">
@@ -22,7 +31,7 @@ export default function CatalogShelf({ title, category, switchable = false }) {
                 </div>
                 <div className="segmented-control" aria-label={`${title} options`}>
                     {category === "trending" ? (
-                        ["day", "week"].map((value) => (
+                        (["day", "week"] as const).map((value: "day" | "week") => (
                             <button
                                 key={value}
                                 type="button"
@@ -33,7 +42,7 @@ export default function CatalogShelf({ title, category, switchable = false }) {
                             </button>
                         ))
                     ) : switchable ? (
-                        ["movie", "tv"].map((value) => (
+                        (["movie", "tv"] as const).map((value: MediaType) => (
                             <button
                                 key={value}
                                 type="button"
@@ -52,7 +61,7 @@ export default function CatalogShelf({ title, category, switchable = false }) {
                 <MediaShelfSkeleton />
             ) : (
                 <div className="media-shelf">
-                    {(data?.results ?? []).slice(0, 16).map((item) => (
+                    {(data?.results ?? []).slice(0, 16).map((item: MediaItem) => (
                         <MediaCard
                             key={`${item.media_type || mediaType}-${item.id}`}
                             item={item}

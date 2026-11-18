@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function NotFoundPage() {
+export default function NotFoundPage(): JSX.Element {
     return (
         <main className="page-width listing-page not-found">
             <p className="eyebrow">Nothing on this reel</p>

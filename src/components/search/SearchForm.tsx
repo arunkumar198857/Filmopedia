@@ -1,13 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import type { FormEvent, ChangeEvent } from "react";
+import type { NavigateFunction } from "react-router-dom";
 
-export default function SearchForm({ compact = false }) {
-    const [term, setTerm] = useState("");
-    const navigate = useNavigate();
+interface SearchFormProps {
+    compact?: boolean;
+}
 
-    function submit(event) {
+export default function SearchForm({ compact = false }: SearchFormProps): JSX.Element {
+    const [term, setTerm] = useState<string>("");
+    const navigate: NavigateFunction = useNavigate();
+
+    function submit(event: FormEvent<HTMLFormElement>): void {
         event.preventDefault();
-        const searchTerm = term.trim();
+        const searchTerm: string = term.trim();
         if (searchTerm) navigate(`/search/${encodeURIComponent(searchTerm)}`);
     }
 
@@ -19,7 +25,7 @@ export default function SearchForm({ compact = false }) {
             <input
                 id={compact ? "header-search" : "hero-search"}
                 value={term}
-                onChange={(event) => setTerm(event.target.value)}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setTerm(event.target.value)}
                 placeholder="Search movies, shows, and people"
                 type="search"
             />

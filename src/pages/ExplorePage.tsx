@@ -8,8 +8,9 @@ import SortBySelect from "../components/filters/SortBySelect";
 import LoadMore from "../components/media/LoadMore";
 import ResultsGrid, { ResultsGridSkeleton } from "../components/media/ResultsGrid";
 import NotFoundPage from "./NotFoundPage";
+import type { GenreResponse, MediaType, SortOption } from "../types/tmdb";
 
-const SORT_OPTIONS = [
+const SORT_OPTIONS: SortOption[] = [
     { value: "popularity.desc", label: "Most popular" },
     { value: "vote_average.desc", label: "Highest rated" },
     { value: "primary_release_date.desc", label: "Newest first" },
@@ -17,12 +18,17 @@ const SORT_OPTIONS = [
     { value: "original_title.asc", label: "Title A–Z" },
 ];
 
-export default function ExplorePage() {
-    const { mediaType: routeType = "movie" } = useParams();
-    const mediaType = routeType === "tv" ? "tv" : "movie";
-    const [sortBy, setSortBy] = useState("popularity.desc");
-    const [genres, setGenres] = useState([]);
-    const genreRequest = useRequest(`/genre/${mediaType}/list`);
+interface ExploreRouteParams {
+    [key: string]: string | undefined;
+    mediaType: string;
+}
+
+export default function ExplorePage(): JSX.Element {
+    const { mediaType: routeType = "movie" } = useParams<ExploreRouteParams>();
+    const mediaType: MediaType = routeType === "tv" ? "tv" : "movie";
+    const [sortBy, setSortBy] = useState<string>("popularity.desc");
+    const [genres, setGenres] = useState<string[]>([]);
+    const genreRequest = useRequest<GenreResponse>(`/genre/${mediaType}/list`);
     const results = usePagedResults(`/discover/${mediaType}`, {
         sort_by: sortBy,
         with_genres: genres.join(","),

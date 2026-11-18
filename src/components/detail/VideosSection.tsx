@@ -1,14 +1,21 @@
 import ErrorMessage from "../ui/ErrorMessage";
 import { VideoListSkeleton } from "../ui/Skeletons";
+import type { Video } from "../../types/tmdb";
 
-export default function VideosSection({ videos, loading, error }) {
+interface VideosSectionProps {
+    videos?: Video[];
+    loading: boolean;
+    error: string;
+}
+
+export default function VideosSection({ videos, loading, error }: VideosSectionProps): JSX.Element {
     return (
         <section className="content-section">
             <div className="section-heading"><h2>Videos</h2></div>
             {error ? <ErrorMessage>{error}</ErrorMessage> : loading ? <VideoListSkeleton /> : (
                 videos?.length ? (
                     <div className="video-list">
-                        {videos.slice(0, 6).map((video) => (
+                        {videos.slice(0, 6).map((video: Video) => (
                             <a
                                 key={video.id}
                                 href={`https://www.youtube.com/watch?v=${encodeURIComponent(video.key)}`}

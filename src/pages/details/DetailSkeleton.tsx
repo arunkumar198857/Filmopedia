@@ -5,7 +5,7 @@ import {
     VideoListSkeleton,
 } from "../../components/ui/Skeletons";
 
-export default function DetailSkeleton() {
+export default function DetailSkeleton(): JSX.Element {
     return (
         <main className="detail-page" aria-busy="true">
             <span className="visually-hidden" role="status">Loading title details</span>

@@ -1,8 +1,17 @@
 import ErrorMessage from "../ui/ErrorMessage";
 import { MediaShelfSkeleton } from "../ui/Skeletons";
 import MediaCard from "./MediaCard";
+import type { MediaItem, MediaType } from "../../types/tmdb";
 
-export default function MediaShelf({ title, items, mediaType, loading, error }) {
+interface MediaShelfProps {
+    title: string;
+    items?: MediaItem[];
+    mediaType: MediaType;
+    loading: boolean;
+    error: string;
+}
+
+export default function MediaShelf({ title, items, mediaType, loading, error }: MediaShelfProps): JSX.Element {
     return (
         <section className="content-section">
             <div className="section-heading">
@@ -15,7 +24,7 @@ export default function MediaShelf({ title, items, mediaType, loading, error }) 
                 <MediaShelfSkeleton />
             ) : items?.length ? (
                 <div className="media-shelf">
-                    {items.slice(0, 16).map((item) => (
+                    {items.slice(0, 16).map((item: MediaItem) => (
                         <MediaCard
                             key={`${item.media_type || mediaType}-${item.id}`}
                             item={item}

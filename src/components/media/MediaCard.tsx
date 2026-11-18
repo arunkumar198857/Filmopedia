@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 import { imageUrl, titleOf, yearOf } from "../../utils/media";
+import type { MediaItem, MediaType } from "../../types/tmdb";
 
-export default function MediaCard({ item, mediaType }) {
-    const kind = item.media_type || mediaType || "movie";
-    const poster = imageUrl(item.poster_path);
-    const rating = Number(item.vote_average);
+interface MediaCardProps {
+    item: MediaItem;
+    mediaType: MediaType;
+}
+
+export default function MediaCard({ item, mediaType }: MediaCardProps): JSX.Element {
+    const kind: MediaType = item.media_type ?? mediaType;
+    const poster: string = imageUrl(item.poster_path);
+    const rating: number = Number(item.vote_average);
 
     return (
         <Link className="media-card" to={`/${kind}/${item.id}`}>

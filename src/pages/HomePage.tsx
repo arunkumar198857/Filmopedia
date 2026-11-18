@@ -1,7 +1,7 @@
 import CatalogShelf from "../components/media/CatalogShelf";
 import HeroBanner from "../components/home/HeroBanner";
 
-export default function HomePage() {
+export default function HomePage(): JSX.Element {
     return (
         <>
             <HeroBanner />

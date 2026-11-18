@@ -1,15 +1,25 @@
 import { useEffect, useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
+import type { SortOption } from "../../types/tmdb";
 
-export default function SortBySelect({ options, value, onChange }) {
-    const [open, setOpen] = useState(false);
-    const containerRef = useRef(null);
-    const triggerRef = useRef(null);
-    const optionsRef = useRef(null);
-    const selectedOption = options.find((option) => option.value === value);
+interface SortBySelectProps {
+    options: SortOption[];
+    value: string;
+    onChange: (value: string) => void;
+}
 
-    useEffect(() => {
-        function closeOnOutsideClick(event) {
-            if (!containerRef.current?.contains(event.target)) {
+export default function SortBySelect({ options, value, onChange }: SortBySelectProps): JSX.Element {
+    const [open, setOpen] = useState<boolean>(false);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const triggerRef = useRef<HTMLButtonElement | null>(null);
+    const optionsRef = useRef<HTMLDivElement | null>(null);
+    const selectedOption: SortOption | undefined = options.find(
+        (option: SortOption) => option.value === value
+    );
+
+    useEffect((): (() => void) => {
+        function closeOnOutsideClick(event: PointerEvent): void {
+            if (!(event.target instanceof Node) || !containerRef.current?.contains(event.target)) {
                 setOpen(false);
             }
         }
@@ -18,19 +28,19 @@ export default function SortBySelect({ options, value, onChange }) {
         return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
     }, []);
 
-    useEffect(() => {
+    useEffect((): void => {
         if (open) {
-            optionsRef.current?.querySelector('[aria-selected="true"]')?.focus();
+            optionsRef.current?.querySelector<HTMLElement>('[aria-selected="true"]')?.focus();
         }
     }, [open]);
 
-    function selectOption(option) {
+    function selectOption(option: SortOption): void {
         onChange(option.value);
         setOpen(false);
         triggerRef.current?.focus();
     }
 
-    function handleTriggerKeyDown(event) {
+    function handleTriggerKeyDown(event: KeyboardEvent<HTMLButtonElement>): void {
         if (event.key === "Escape") {
             setOpen(false);
         } else if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
@@ -39,13 +49,14 @@ export default function SortBySelect({ options, value, onChange }) {
         }
     }
 
-    function handleOptionKeyDown(event, index) {
-        const optionElements = optionsRef.current?.querySelectorAll('[role="option"]');
+    function handleOptionKeyDown(event: KeyboardEvent<HTMLDivElement>, index: number): void {
+        const optionElements: NodeListOf<HTMLDivElement> | undefined =
+            optionsRef.current?.querySelectorAll<HTMLDivElement>('[role="option"]');
 
         if (event.key === "ArrowDown" || event.key === "ArrowUp") {
             event.preventDefault();
-            const direction = event.key === "ArrowDown" ? 1 : -1;
-            const nextIndex = (index + direction + options.length) % options.length;
+            const direction: 1 | -1 = event.key === "ArrowDown" ? 1 : -1;
+            const nextIndex: number = (index + direction + options.length) % options.length;
             optionElements?.[nextIndex]?.focus();
         } else if (event.key === "Escape") {
             setOpen(false);
@@ -69,7 +80,7 @@ export default function SortBySelect({ options, value, onChange }) {
                     aria-haspopup="listbox"
                     aria-expanded={open}
                     aria-controls="sort-by-options"
-                    onClick={() => setOpen((isOpen) => !isOpen)}
+                    onClick={() => setOpen((isOpen: boolean) => !isOpen)}
                     onKeyDown={handleTriggerKeyDown}
                 >
                     <span id="sort-by-value">{selectedOption?.label}</span>
@@ -92,8 +103,8 @@ export default function SortBySelect({ options, value, onChange }) {
                         aria-labelledby="sort-by-label"
                         ref={optionsRef}
                     >
-                        {options.map((option, index) => {
-                            const selected = option.value === value;
+                        {options.map((option: SortOption, index: number) => {
+                            const selected: boolean = option.value === value;
                             return (
                                 <div
                                     className="genre-option"
@@ -102,7 +113,9 @@ export default function SortBySelect({ options, value, onChange }) {
                                     aria-selected={selected}
                                     tabIndex={0}
                                     onClick={() => selectOption(option)}
-                                    onKeyDown={(event) => handleOptionKeyDown(event, index)}
+                                    onKeyDown={(event: KeyboardEvent<HTMLDivElement>) =>
+                                        handleOptionKeyDown(event, index)
+                                    }
                                 >
                                     <span>{option.label}</span>
                                     {selected && <span className="sort-option-check" aria-hidden="true">✓</span>}
