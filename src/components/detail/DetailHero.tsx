@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { imageUrl, titleOf, yearOf } from "../../utils/media";
 import type { CrewMember, Genre, MediaDetails, MediaType, Video } from "../../types/tmdb";
-import "./DetailHero.css";
+import "./DetailHero.scss";
 
 interface DetailHeroProps {
     item: MediaDetails;

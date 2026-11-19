@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import type { Location as RouteLocation } from "react-router-dom";
 import SearchForm from "../search/SearchForm";
-import "./SiteHeader.css";
+import "./SiteHeader.scss";
 
 type Theme = "light" | "dark";
 

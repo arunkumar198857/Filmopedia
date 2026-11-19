@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./NotFoundPage.css";
+import "./NotFoundPage.scss";
 
 export default function NotFoundPage(): JSX.Element {
     return (

@@ -1,0 +1,73 @@
+@use "../../styles/breakpoints" as breakpoints;
+
+.video-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+
+    a {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        max-width: calc(100vw - 60px);
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--surface);
+        text-decoration: none;
+
+        &:hover {
+            border-color: var(--accent);
+        }
+
+        > span:first-child {
+            color: var(--accent);
+        }
+
+        > span:nth-child(2) {
+            overflow: hidden;
+            flex: 1;
+            font-size: 0.86rem;
+            font-weight: 700;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    small {
+        color: var(--muted);
+    }
+
+    @media (max-width: breakpoints.$mobile) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.video-skeleton-item {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 11px;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+}
+
+.video-play-skeleton {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    border-radius: 50%;
+}
+
+.video-title-skeleton {
+    width: 62%;
+    height: 11px;
+}
+
+.video-type-skeleton {
+    width: 42px;
+    height: 9px;
+}

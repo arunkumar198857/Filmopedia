@@ -1,8 +1,4 @@
-.cast-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+@use "../../styles/breakpoints" as breakpoints;
 
 .cast-grid {
     display: grid;
@@ -41,17 +37,18 @@
     flex-direction: column;
     gap: 3px;
     font-size: 0.82rem;
-}
 
-.cast-card strong, .cast-card > span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+    strong,
+    > span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 
-.cast-card > span {
-    color: var(--muted);
-    font-size: 0.74rem;
+    > span {
+        color: var(--muted);
+        font-size: 0.74rem;
+    }
 }
 
 .cast-avatar {
@@ -67,18 +64,20 @@
     background: var(--soft-accent);
     font-size: 2rem;
     font-weight: 800;
-}
 
-@media (max-width: 900px) {
-
-    .cast-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 }
 
-@media (max-width: 640px) {
+.cast-grid {
+    @media (max-width: breakpoints.$tablet-wide) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
 
-    .cast-grid {
+    @media (max-width: breakpoints.$mobile) {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 16px 12px;
     }

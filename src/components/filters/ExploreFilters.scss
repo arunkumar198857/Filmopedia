@@ -1,8 +1,14 @@
+@use "../../styles/breakpoints" as breakpoints;
+
 .filter-bar {
     display: flex;
     align-items: start;
     gap: 15px;
     margin: 0 0 25px;
+
+    @media (max-width: breakpoints.$mobile) {
+        flex-direction: column;
+    }
 }
 
 .filter-loading {
@@ -29,6 +35,13 @@
     color: var(--muted);
     font-size: 0.78rem;
     font-weight: 700;
+
+    @media (max-width: breakpoints.$mobile) {
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        flex-basis: 100%;
+    }
 }
 
 .sort-select-control {
@@ -36,12 +49,12 @@
     justify-content: space-between;
     cursor: pointer;
     text-align: left;
-}
 
-.sort-select-control > span:first-child {
-    color: var(--ink);
-    font-size: 0.82rem;
-    font-weight: 650;
+    > span:first-child {
+        color: var(--ink);
+        font-size: 0.82rem;
+        font-weight: 650;
+    }
 }
 
 .genre-select-chevron {
@@ -51,10 +64,10 @@
     flex: 0 0 14px;
     color: var(--muted);
     transition: transform 140ms ease;
-}
 
-.genre-select-chevron.is-open {
-    transform: rotate(180deg);
+    &.is-open {
+        transform: rotate(180deg);
+    }
 }
 
 .sort-option-check {
@@ -81,11 +94,16 @@
     border-radius: 9px;
     background: var(--surface);
     cursor: text;
-}
 
-.genre-multi-control:focus-within, .genre-multi-control.is-open {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
+    &:focus-within,
+    &.is-open {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
+    }
+
+    input:focus-visible {
+        outline: none;
+    }
 }
 
 .genre-chip {
@@ -99,26 +117,26 @@
     background: var(--soft-accent);
     font-size: 0.74rem;
     white-space: nowrap;
-}
 
-.genre-chip button {
-    display: grid;
-    width: 20px;
-    height: 20px;
-    place-items: center;
-    padding: 0;
-    border: 0;
-    border-radius: 4px;
-    color: var(--muted);
-    background: transparent;
-    cursor: pointer;
-    font-size: 1rem;
-    line-height: 1;
-}
+    button {
+        display: grid;
+        width: 20px;
+        height: 20px;
+        place-items: center;
+        padding: 0;
+        border: 0;
+        border-radius: 4px;
+        color: var(--muted);
+        background: transparent;
+        cursor: pointer;
+        font-size: 1rem;
+        line-height: 1;
 
-.genre-chip button:hover {
-    color: var(--accent-dark);
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
+        &:hover {
+            color: var(--accent-dark);
+            background: color-mix(in srgb, var(--accent) 12%, transparent);
+        }
+    }
 }
 
 .genre-query {
@@ -130,14 +148,10 @@
     outline: none;
     color: var(--ink);
     background: transparent;
-}
 
-.genre-multi-control input:focus-visible {
-    outline: none;
-}
-
-.genre-query::placeholder {
-    color: var(--muted);
+    &::placeholder {
+        color: var(--muted);
+    }
 }
 
 .genre-dropdown-toggle {
@@ -153,22 +167,22 @@
     background: transparent;
     cursor: pointer;
     font-size: 1.15rem;
-}
 
-.genre-dropdown-toggle:hover {
-    color: var(--accent);
-    background: var(--soft-accent);
-}
+    &:hover {
+        color: var(--accent);
+        background: var(--soft-accent);
+    }
 
-.genre-dropdown-toggle svg {
-    display: block;
-    width: 14px;
-    height: 12px;
-    transition: transform 140ms ease;
-}
+    svg {
+        display: block;
+        width: 14px;
+        height: 12px;
+        transition: transform 140ms ease;
+    }
 
-.genre-dropdown-toggle.is-open svg {
-    transform: rotate(180deg);
+    &.is-open svg {
+        transform: rotate(180deg);
+    }
 }
 
 .genre-menu {
@@ -197,15 +211,21 @@
     cursor: pointer;
     font-size: 0.82rem;
     outline: none;
-}
 
-.genre-option:hover, .genre-option:focus-visible {
-    background: color-mix(in srgb, var(--soft-accent) 70%, var(--surface));
-}
+    &:hover,
+    &:focus-visible {
+        background: color-mix(in srgb, var(--soft-accent) 70%, var(--surface));
+    }
 
-.genre-option[aria-selected="true"] {
-    color: var(--accent-dark);
-    font-weight: 700;
+    &[aria-selected="true"] {
+        color: var(--accent-dark);
+        font-weight: 700;
+
+        .genre-check {
+            border-color: var(--accent);
+            background: var(--accent);
+        }
+    }
 }
 
 .genre-check {
@@ -222,11 +242,6 @@
     line-height: 1;
 }
 
-.genre-option[aria-selected="true"] .genre-check {
-    border-color: var(--accent);
-    background: var(--accent);
-}
-
 .genre-empty {
     margin: 0;
     padding: 10px;
@@ -234,16 +249,3 @@
     font-size: 0.8rem;
 }
 
-@media (max-width: 640px) {
-
-    .filter-bar {
-        flex-direction: column;
-    }
-
-    .genre-field {
-        width: 100%;
-        min-width: 0;
-        max-width: none;
-        flex-basis: 100%;
-    }
-}

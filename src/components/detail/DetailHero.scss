@@ -1,0 +1,235 @@
+@use "../../styles/breakpoints" as breakpoints;
+
+.detail-hero {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    background: #292c3b;
+    isolation: isolate;
+
+    &::before {
+        position: absolute;
+        z-index: -2;
+        inset: 0;
+        background-image: var(--detail-image);
+        background-position: center 35%;
+        background-size: cover;
+        content: "";
+    }
+
+    &::after {
+        position: absolute;
+        z-index: -1;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(25, 27, 38, 0.96), rgba(25, 27, 38, 0.76) 62%, rgba(25, 27, 38, 0.5));
+        content: "";
+    }
+}
+
+.detail-layout {
+    display: grid;
+    grid-template-columns: minmax(200px, 285px) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(32px, 6vw, 75px);
+    padding-block: 55px 64px;
+
+    @media (max-width: breakpoints.$mobile) {
+        grid-template-columns: minmax(105px, 32%) minmax(0, 1fr);
+        align-items: start;
+        gap: 18px;
+        padding-block: 35px 40px;
+    }
+}
+
+.detail-poster-skeleton {
+    display: block;
+    border-color: rgba(255, 255, 255, 0.16);
+    background: linear-gradient(
+        105deg,
+        rgba(255, 255, 255, 0.08) 25%,
+        rgba(255, 255, 255, 0.17) 42%,
+        rgba(255, 255, 255, 0.08) 63%
+    );
+    background-size: 220% 100%;
+}
+
+.detail-copy-skeleton {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+
+    .skeleton-block {
+        background: linear-gradient(
+            105deg,
+            rgba(255, 255, 255, 0.12) 25%,
+            rgba(255, 255, 255, 0.24) 42%,
+            rgba(255, 255, 255, 0.12) 63%
+        );
+        background-size: 220% 100%;
+    }
+
+    .detail-facts {
+        margin: 3px 0 9px;
+    }
+}
+
+.detail-eyebrow-skeleton {
+    width: 90px;
+    height: 10px;
+}
+
+.detail-title-skeleton {
+    width: 78%;
+    height: 38px;
+    margin-block: 4px;
+}
+
+.detail-subtitle-skeleton {
+    width: 45%;
+    height: 13px;
+}
+
+.skeleton-chip {
+    width: 62px;
+    height: 25px;
+    border-radius: 7px;
+}
+
+.detail-section-title-skeleton {
+    width: 95px;
+    height: 16px;
+}
+
+.detail-description-skeleton {
+    width: 100%;
+    height: 11px;
+}
+
+.detail-description-skeleton.short {
+    width: 68%;
+}
+
+.detail-button-skeleton {
+    width: 122px;
+    height: 40px;
+    margin-top: 5px;
+    border-radius: 9px;
+}
+
+.detail-poster {
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.detail-copy {
+    .eyebrow {
+        color: #ffc4a5;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        letter-spacing: -0.06em;
+        line-height: 1.06;
+
+        span {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.6em;
+            white-space: nowrap;
+        }
+    }
+
+    h2 {
+        margin: 0 0 6px;
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: breakpoints.$mobile) {
+        h1 {
+            font-size: clamp(1.65rem, 7vw, 2.3rem);
+        }
+
+        .eyebrow {
+            margin-bottom: 7px;
+            font-size: 0.65rem;
+        }
+
+        .button-link {
+            min-height: 36px;
+            padding-inline: 12px;
+            font-size: 0.8rem;
+        }
+    }
+}
+
+.detail-tagline {
+    margin: 12px 0;
+    color: rgba(255, 255, 255, 0.75);
+    font-style: italic;
+
+    @media (max-width: breakpoints.$mobile) {
+        font-size: 0.84rem;
+    }
+}
+
+.detail-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 19px 0 24px;
+
+    span {
+        padding: 5px 9px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 7px;
+        color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 0.78rem;
+    }
+
+    @media (max-width: breakpoints.$mobile) {
+        gap: 5px;
+        margin-block: 12px;
+
+        span {
+            padding: 4px 6px;
+            font-size: 0.67rem;
+        }
+    }
+}
+
+.overview-copy {
+    max-width: 720px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.82);
+
+    @media (max-width: breakpoints.$mobile) {
+        font-size: 0.84rem;
+    }
+}
+
+.credits-line {
+    margin: 18px 0;
+    color: rgba(255, 255, 255, 0.77);
+    font-size: 0.85rem;
+
+    @media (max-width: breakpoints.$mobile) {
+        font-size: 0.74rem;
+    }
+}
+
+.detail-sections {
+    padding-block: 4px 45px;
+}
+

@@ -1,3 +1,5 @@
+@use "../../styles/breakpoints" as breakpoints;
+
 .site-header {
     position: sticky;
     z-index: 5;
@@ -45,14 +47,14 @@
     color: var(--muted);
     font-size: 0.9rem;
     font-weight: 650;
-}
 
-.main-nav a {
-    text-decoration: none;
-}
+    a {
+        text-decoration: none;
 
-.main-nav a:hover {
-    color: var(--accent);
+        &:hover {
+            color: var(--accent);
+        }
+    }
 }
 
 .header-actions {
@@ -88,33 +90,35 @@
 .hamburger-icon {
     display: grid;
     gap: 4px;
-}
 
-.hamburger-icon span {
-    width: 16px;
-    height: 2px;
-    border-radius: 2px;
-    background: currentColor;
-    transition: transform 140ms ease, opacity 140ms ease;
-}
+    span {
+        width: 16px;
+        height: 2px;
+        border-radius: 2px;
+        background: currentColor;
+        transition: transform 140ms ease, opacity 140ms ease;
+    }
 
-.hamburger-icon.is-open span:first-child {
-    transform: translateY(6px) rotate(45deg);
-}
+    &.is-open {
+        span:first-child {
+            transform: translateY(6px) rotate(45deg);
+        }
 
-.hamburger-icon.is-open span:nth-child(2) {
-    opacity: 0;
-}
+        span:nth-child(2) {
+            opacity: 0;
+        }
 
-.hamburger-icon.is-open span:last-child {
-    transform: translateY(-6px) rotate(-45deg);
+        span:last-child {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+    }
 }
 
 .mobile-nav {
     display: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: breakpoints.$tablet-wide) {
     .header-content {
         min-height: 70px;
         gap: 20px;
@@ -125,7 +129,7 @@
     }
 }
 
-@media (max-width: 760px) {
+@media (max-width: breakpoints.$navigation-collapse) {
     .header-content {
         min-height: 64px;
         gap: 10px;
@@ -148,27 +152,27 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
         padding-bottom: 12px;
-    }
 
-    .mobile-nav a {
-        padding: 10px 12px;
-        border: 1px solid var(--line);
-        border-radius: 9px;
-        color: var(--ink);
-        background: var(--surface);
-        font-size: 0.88rem;
-        font-weight: 700;
-        text-align: center;
-        text-decoration: none;
-    }
+        a {
+            padding: 10px 12px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            color: var(--ink);
+            background: var(--surface);
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
 
-    .mobile-nav a:hover {
-        border-color: var(--accent);
-        color: var(--accent);
+            &:hover {
+                border-color: var(--accent);
+                color: var(--accent);
+            }
+        }
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: breakpoints.$mobile) {
 
     .header-content {
         min-height: 64px;
@@ -205,7 +209,7 @@
     }
 }
 
-@media (max-width: 440px) {
+@media (max-width: breakpoints.$small-mobile) {
     .brand > span:not(.brand-mark) {
         display: none;
     }

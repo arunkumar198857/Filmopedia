@@ -1,7 +1,7 @@
 import ErrorMessage from "../ui/ErrorMessage";
 import { VideoListSkeleton } from "../ui/Skeletons";
 import type { Video } from "../../types/tmdb";
-import "./VideosSection.css";
+import "./VideosSection.scss";
 
 interface VideosSectionProps {
     videos?: Video[];

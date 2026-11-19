@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./SiteFooter.css";
+import "./SiteFooter.scss";
 
 export default function SiteFooter(): JSX.Element {
     return (
