@@ -1131,6 +1131,7 @@ img {
     border-radius: 10px;
     background: var(--surface);
     text-decoration: none;
+    max-width: calc(100vw - 60px);
 }
 
 .video-list a:hover {
