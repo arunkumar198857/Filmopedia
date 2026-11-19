@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { FormEvent, ChangeEvent } from "react";
 import type { NavigateFunction } from "react-router-dom";
+import "./SearchForm.css";
 
 interface SearchFormProps {
     compact?: boolean;

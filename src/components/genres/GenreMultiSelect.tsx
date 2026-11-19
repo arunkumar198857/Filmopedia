@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { ChangeEvent, KeyboardEvent, MouseEvent } from "react";
 import type { Genre } from "../../types/tmdb";
+import "../filters/ExploreFilters.css";
 
 interface GenreMultiSelectProps {
     options: Genre[];

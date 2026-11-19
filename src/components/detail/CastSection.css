@@ -1,0 +1,85 @@
+.cast-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cast-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.cast-skeleton-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.cast-avatar-skeleton {
+    width: 100%;
+    aspect-ratio: 1;
+    margin-bottom: 4px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+}
+
+.skeleton-cast-name {
+    width: 80%;
+    height: 11px;
+}
+
+.skeleton-cast-role {
+    width: 58%;
+    height: 9px;
+}
+
+.cast-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 0.82rem;
+}
+
+.cast-card strong, .cast-card > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cast-card > span {
+    color: var(--muted);
+    font-size: 0.74rem;
+}
+
+.cast-avatar {
+    display: grid;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    place-items: center;
+    margin-bottom: 5px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--accent);
+    background: var(--soft-accent);
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+@media (max-width: 900px) {
+
+    .cast-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+
+    .cast-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px 12px;
+    }
+}

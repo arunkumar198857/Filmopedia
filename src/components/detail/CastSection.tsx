@@ -2,6 +2,7 @@ import { imageUrl } from "../../utils/media";
 import ErrorMessage from "../ui/ErrorMessage";
 import { CastSkeleton } from "../ui/Skeletons";
 import type { CastMember } from "../../types/tmdb";
+import "./CastSection.css";
 
 interface CastSectionProps {
     people: CastMember[];

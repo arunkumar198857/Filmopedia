@@ -1,0 +1,109 @@
+.site-footer a:hover {
+    color: var(--accent);
+}
+
+.site-footer {
+    padding: 48px 0 24px;
+    color: #fff;
+    background: #222638;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    text-align: center;
+}
+
+.footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 27px;
+}
+
+.footer-nav a {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.8rem;
+    font-weight: 750;
+    text-decoration: none;
+    transition: color 140ms ease;
+}
+
+.footer-nav a:hover {
+    color: #ffc4a5;
+}
+
+.footer-summary {
+    max-width: 720px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.87rem;
+    line-height: 1.7;
+}
+
+.footer-shortcuts {
+    display: flex;
+    justify-content: center;
+    gap: 11px;
+}
+
+.footer-shortcuts a {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    color: #fff;
+    background: #30354a;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition: color 140ms ease, background-color 140ms ease, transform 140ms ease;
+}
+
+.footer-shortcuts a:hover {
+    color: #222638;
+    background: #ffc4a5;
+    transform: translateY(-2px);
+}
+
+.footer-shortcuts svg {
+    display: block;
+    width: 19px;
+    height: 19px;
+}
+
+.footer-attribution {
+    width: min(100%, 800px);
+    margin: 0;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.74rem;
+}
+
+.footer-attribution a {
+    color: #ffc4a5;
+}
+
+@media (max-width: 640px) {
+
+    .site-footer {
+        padding-block: 36px 20px;
+    }
+
+    .footer-content {
+        gap: 18px;
+    }
+
+    .footer-nav {
+        gap: 12px 18px;
+    }
+
+    .footer-summary {
+        font-size: 0.82rem;
+    }
+}

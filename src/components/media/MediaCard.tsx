@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { imageUrl, titleOf, yearOf } from "../../utils/media";
 import type { MediaItem, MediaType } from "../../types/tmdb";
+import "./Media.css";
 
 interface MediaCardProps {
     item: MediaItem;

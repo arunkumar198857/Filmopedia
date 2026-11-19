@@ -1,0 +1,24 @@
+.button-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 19px;
+    border: 0;
+    border-radius: 9px;
+    color: #fff;
+    background: var(--accent);
+    cursor: pointer;
+    font-weight: 750;
+    text-decoration: none;
+    transition: background-color 140ms ease, transform 140ms ease;
+}
+
+.button-link:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+}
+
+.button-link {
+    margin-top: 8px;
+}

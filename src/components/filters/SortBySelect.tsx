@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import type { SortOption } from "../../types/tmdb";
+import "./ExploreFilters.css";
 
 interface SortBySelectProps {
     options: SortOption[];

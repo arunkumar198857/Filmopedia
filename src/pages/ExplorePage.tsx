@@ -9,6 +9,7 @@ import LoadMore from "../components/media/LoadMore";
 import ResultsGrid, { ResultsGridSkeleton } from "../components/media/ResultsGrid";
 import NotFoundPage from "./NotFoundPage";
 import type { GenreResponse, MediaType, SortOption } from "../types/tmdb";
+import "./ListingPage.css";
 
 const SORT_OPTIONS: SortOption[] = [
     { value: "popularity.desc", label: "Most popular" },

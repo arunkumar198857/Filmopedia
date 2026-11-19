@@ -4,6 +4,7 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import LoadMore from "../components/media/LoadMore";
 import ResultsGrid, { ResultsGridSkeleton } from "../components/media/ResultsGrid";
 import type { MediaItem } from "../types/tmdb";
+import "./ListingPage.css";
 
 interface SearchRouteParams {
     [key: string]: string | undefined;

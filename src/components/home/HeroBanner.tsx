@@ -4,6 +4,7 @@ import { imageUrl } from "../../utils/media";
 import { SkeletonBlock } from "../ui/Skeletons";
 import SearchForm from "../search/SearchForm";
 import type { MediaItem, PagedResponse } from "../../types/tmdb";
+import "./HeroBanner.css";
 
 export default function HeroBanner(): JSX.Element {
     const { data, loading, error } = useRequest<PagedResponse<MediaItem>>("/movie/upcoming");
